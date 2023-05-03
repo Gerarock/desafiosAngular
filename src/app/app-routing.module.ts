@@ -1,51 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CardsComponent } from './components/cards/cards.component';
-import { ListasComponent } from './components/listas/listas.component';
-import { FormulariosComponent } from './components/formularios/formularios.component';
-import { ReactiveProgrammingComponent } from './components/reactive-programming/reactive-programming.component';
-import { LlamadaApiRestComponent } from './components/llamada-api-rest/llamada-api-rest.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginGuard } from './core/guards/login.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'cards',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
+    path: 'auth',
+    canActivate: [LoginGuard],
     component: AuthComponent,
     loadChildren: () => import('./components/auth/auth.module').then((m) => m.AuthModule)
   },
   {
-    path: 'cards',
-    component: CardsComponent,
-    loadChildren: () => import('./components/cards/cards.module').then((m) => m.CardsModule)
-  },
-  {
-    path: 'listas',
-    component: ListasComponent,
-    loadChildren: () => import('./components/listas/listas.module').then((m) => m.ListasModule)
-  },
-  {
-    path: 'formularios',
-    component: FormulariosComponent,
-    loadChildren: () => import('./components/formularios/formularios.module').then((m) => m.FormulariosModule)
-  },
-  {
-    path: 'reactive-programming',
-    component: ReactiveProgrammingComponent,
-    loadChildren: () => import('./components/reactive-programming/reactive-programming.module').then((m) => m.ReactiveProgrammingModule)
-  },
-  {
-    path: 'llamada-api-rest',
-    component: LlamadaApiRestComponent,
-    loadChildren: () => import('./components/llamada-api-rest/llamada-api-rest.module').then((m) => m.LlamadaApiRestModule)
+    path: 'dashboard',
+    canActivate: [AuthGuard],
+    component: DashboardComponent,
+    loadChildren: () => import('./components/dashboard/dashboard.module').then((m) => m.DashboardModule)
   },
   {
     path: '**',
-    redirectTo: 'cards',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   }
 ];

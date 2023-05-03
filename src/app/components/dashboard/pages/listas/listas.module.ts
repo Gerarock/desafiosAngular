@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ListasRoutingModule } from './listas-routing.module';
 import { ListasComponent } from './listas.component';
 
-
 @NgModule({
   declarations: [
     ListasComponent
