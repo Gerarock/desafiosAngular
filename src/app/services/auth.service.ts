@@ -59,24 +59,25 @@ export class AuthService {
   verificaToken(): Observable<boolean> {
     const token = localStorage.getItem('token');
     return this.httClient.get<Usuario[]>(
-      `${environments.apiBaseUrl}/usuarios?token=${token}`),
+      `${environments.apiBaseUrl}/usuarios?token=${token}`,
       {
         headers: new HttpHeaders({
           'authorization': token || ''
         }),
       }
-        .pipe(
-          map((usuarios) => {
-            const usuarioAutenticado = usuarios[0];
-            if (usuarioAutenticado) {
-              localStorage.setItem('token', usuarioAutenticado.token);
-              this.authUser$.next(usuarioAutenticado);
-            }
-            return !!usuarioAutenticado;
-          }),
-          catchError((err) => {
-            return of(false);
-          })
-        );
+    )
+      .pipe(
+        map((usuarios) => {
+          const usuarioAutenticado = usuarios[0];
+          if (usuarioAutenticado) {
+            localStorage.setItem('token', usuarioAutenticado.token);
+            this.authUser$.next(usuarioAutenticado);
+          }
+          return !!usuarioAutenticado;
+        }),
+        catchError((err) => {
+          return of(false);
+        })
+      );
   }
 }

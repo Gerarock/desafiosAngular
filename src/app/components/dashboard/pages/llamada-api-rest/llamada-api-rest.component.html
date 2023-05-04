@@ -1,1 +1,46 @@
-<p>llamada-api-rest works!</p>
+<div class="card bg-light">
+    <mat-form-field class="w-full w-100">
+        <mat-label>Filtro de Clientes</mat-label>
+        <input matInput (keyup)="aplicarFiltros($event)" placeholder="Ingrese cliente" #input>
+    </mat-form-field>
+    <article class="card-body margin">
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef class="fw-b">Id</th>
+                <td mat-cell *matCellDef="let cliente"> {{cliente.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="fw-b">Nombre</th>
+                <td mat-cell *matCellDef="let cliente">
+                    {{cliente.nombre}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="apellido">
+                <th mat-header-cell *matHeaderCellDef class="fw-b">Apellido</th>
+                <td mat-cell *matCellDef="let cliente">
+                    {{cliente.apellido}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="edad">
+                <th mat-header-cell *matHeaderCellDef class="fw-b">Edad</th>
+                <td mat-cell *matCellDef="let cliente">
+                    {{cliente.edad}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="direccion">
+                <th mat-header-cell *matHeaderCellDef class="fw-b">Dirección</th>
+                <td mat-cell *matCellDef="let cliente">
+                    {{cliente.direccion}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef class="fw-b">Email</th>
+                <td mat-cell *matCellDef="let cliente">
+                    {{cliente.email}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </article>
+</div>

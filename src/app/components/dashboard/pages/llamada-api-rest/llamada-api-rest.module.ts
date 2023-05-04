@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LlamadaApiRestRoutingModule } from './llamada-api-rest-routing.module';
 import { LlamadaApiRestComponent } from './llamada-api-rest.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -9,7 +12,10 @@ import { LlamadaApiRestComponent } from './llamada-api-rest.component';
   ],
   imports: [
     CommonModule,
-    LlamadaApiRestRoutingModule
+    LlamadaApiRestRoutingModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     LlamadaApiRestComponent
