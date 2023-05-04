@@ -1,6 +1,7 @@
-<h2>Iniciar sesión</h2>
+<h2 class="pb-10">Iniciar sesión</h2>
+<p class="pb-10"><b>Usuario:</b> test | <b>Password:</b> test</p>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="field">
+    <div class="field pb-10">
         <mat-form-field class="w-full">
             <mat-label>Usuario</mat-label>
             <input [formControl]="userControl" type="text" matInput />
@@ -8,7 +9,7 @@
                 }}</mat-error>
         </mat-form-field>
     </div>
-    <div class="field">
+    <div class="field pb-10">
         <mat-form-field class="w-full">
             <mat-label>Contraseña</mat-label>
             <input [formControl]="passwordControl" type="password" matInput />

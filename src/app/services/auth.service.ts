@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, map, catchError, of } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environments } from 'src/environments/environments';
 
 export interface LoginFormValue {
   user: string;
@@ -26,32 +27,56 @@ export class AuthService {
   }
 
   login(formValue: LoginFormValue): void {
-/*     const usuario: Usuario = {
-      id: 1,
-      nombre: 'Gerardo',
-      apellido: 'Veliz',
-      user: formValue.user,
-      role: 'user'
-    }
-    localStorage.setItem('auth-user', JSON.stringify(usuario));
-    this.authUser$.next(usuario);
-    this.router.navigate(['dashboard']); */
-
-    this.httClient.get('http://localhost:3000/usuarios').pipe.arguments
-
+    this.httClient.get<Usuario[]>(
+      `${environments.apiBaseUrl}/usuarios`,
+      {
+        params: {
+          ...formValue
+        }
+      }
+    ).subscribe({
+      next: (usuarios) => {
+        const usuarioAutenticado = usuarios[0];
+        if (usuarioAutenticado) {
+          localStorage.setItem('token', usuarioAutenticado.token);
+          localStorage.setItem('auth-user', JSON.stringify(usuarioAutenticado));
+          this.authUser$.next(usuarioAutenticado);
+          this.router.navigate(['dashboard']);
+        } else {
+          alert('¡Usuario o contraseña incorrectos!');
+        }
+      }
+    });
   }
 
   logout(): void {
+    localStorage.removeItem('token');
     localStorage.removeItem('auth-user');
     this.authUser$.next(null);
     this.router.navigate(['auth']);
   }
 
-  verificarStorage(): void {
-    const storageValor = localStorage.getItem('auth-user');
-    if (storageValor) {
-      const usuario = JSON.parse(storageValor);
-      this.authUser$.next(usuario);
-    }
+  verificaToken(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    return this.httClient.get<Usuario[]>(
+      `${environments.apiBaseUrl}/usuarios?token=${token}`),
+      {
+        headers: new HttpHeaders({
+          'authorization': token || ''
+        }),
+      }
+        .pipe(
+          map((usuarios) => {
+            const usuarioAutenticado = usuarios[0];
+            if (usuarioAutenticado) {
+              localStorage.setItem('token', usuarioAutenticado.token);
+              this.authUser$.next(usuarioAutenticado);
+            }
+            return !!usuarioAutenticado;
+          }),
+          catchError((err) => {
+            return of(false);
+          })
+        );
   }
 }

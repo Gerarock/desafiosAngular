@@ -1,9 +1,9 @@
 {
   "usuarios": [
     {
-      "nombre": "Sebita",
+      "nombre": "Gerardo",
       "apellido": "Veliz",
-      "email": "test@gmail.com",
+      "user": "test",
       "password": "test",
       "token": "eqwueh8j213nwe8dsndsahui8",
       "role": "admin",

@@ -16,8 +16,7 @@ export class LoginGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.authService.verificarStorage();
-    return this.authService.obtenerUsuarioAutenticado()
+    return this.authService.verificaToken()
       .pipe(
         map((usuarioAutenticado) => {
           if (usuarioAutenticado) {
